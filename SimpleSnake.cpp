@@ -1,5 +1,11 @@
-#include<iostream>
-
+#include <iostream>
+#include <ncurses.h>
+#include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <ctype.h>
 using namespace std;
 bool gameOver;
 const int width = 20;
@@ -30,8 +36,12 @@ void Draw(){
 
 			if (j == 0)
 				cout << "#";
-				cout << " ";
-
+			if (i == y && j == x)
+				cout << "O";
+			else if (i ==fruitY && j == fruitX)
+				cout << "F";
+			else
+				cout <<  " ";
 			if (j == width-1)
 				cout << "#";
 		}
@@ -39,14 +49,69 @@ void Draw(){
 
 	}
 
-	for (int i = 0; i < width; i++)
+	for (int i = 0; i < width + 2; i++)
 		cout << "#";
 	cout << endl;
+	cout << "Score: " << score << endl;
 }
 
-void Input(){}
+void Input(){
+	WINDOW *switch_;
+	int ch;
+	initscr();
+	clear();
+	noecho();
+	cbreak();
+	ch = wgetch(switch_);
+	switch (ch){
+		case 'a':
+			dir = LEFT;
+			break;
+		case 'b':
+			dir  = RIGHT;
+			break;
+		case 'w':
+			dir = UP;
+			break;
+		case 's':
+			dir = DOWN;
+			break;
+		case 'x':
+			gameOver = true;
+			break;
+		}
+	clrtoeol();
+	refresh();
+	endwin();
+	
+}
 
-void Logic(){}
+void Logic(){
+
+	switch (dir){
+		case LEFT:
+			x--;
+			break;
+		case RIGHT:
+			x++;
+			break;
+		case UP:
+			y++;
+			break;
+		case DOWN:
+			y--;
+			break;
+		default:
+			break;
+	}
+	
+	if (x > width || x < 0 || y > height || y < 0)
+		gameOver = true;
+	if ( x == fruitX && y == fruitY)
+		score += 3;
+		fruitX = rand() % width;
+		fruitY = rand() % height;
+}
 
 int main(){
 	Setup();
