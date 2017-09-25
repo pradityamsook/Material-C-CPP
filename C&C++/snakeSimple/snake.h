@@ -2,7 +2,7 @@
 #include<ncurses.h>
 #include<vector>
 #include<cstdlib>
-
+#include<unistd.h>
 
 #ifndef SNAKE_H
 #define SNAKE_H
@@ -15,8 +15,15 @@ struct snakepart{
 
 
 class snakeclass{
-    int points,del,maxwidth,maxheight;
-    char direction,partchar,oldalchar,foo;
+    int points;
+    int del;
+    int maxwidth;
+    int maxheight;
+    char direction;
+    char partchar;
+    char oldalchar;
+    char foo;
+    char etel;
     bool get;
     snakepart food;
     std::vector<snakepart> snake;
