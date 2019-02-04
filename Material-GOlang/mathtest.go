@@ -1,17 +1,13 @@
 package main
 
-import(
+import (
 	"fmt"
-	
 )
 
-
-func math(width int,height int)int {
+func math(width int, height int) int {
 	return width * height
 }
 
-func main(){
-	fmt.Println(math(24,10))
+func main() {
+	fmt.Println(math(24, 10))
 }
-
-
